@@ -1,0 +1,63 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Data User
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item.active Data User
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Data User
+            .card-tools
+              a.btn.btn-tool(href='/admin/user/tambah' data-toggle="tooltip" title='Tambah' onclick="")
+                i.fas.fa-plus
+          .card-body
+            table.table.table-hover.table-bordered.table-stripped.datatable
+              thead
+                tr
+                  th(width="1%") No
+                  th Nama
+                  th Username
+                  th Level
+                  th(width="15%") Action
+              tbody
+
+block script
+  script.
+    $(document).ready(function() {
+      get({
+        url: '/admin/user/datalist',
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        var no = 1;
+        var table = $('.table').find('tbody')
+        var content = ''
+
+        $.each(response.data, (index, user) => {
+          content = '<tr>\
+            <td align="center">'+(no++)+'</td>\
+            <td>'+(user.nama)+'</td>\
+            <td>'+(user.username)+'</td>\
+            <td>'+(user.nama_level)+'</td>\
+            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+user.id_user+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button> <button class="btn btn-sm btn-info" onclick="ubah('+user.id_user+')" data-toggle="tooltip" title="Ubah"><i class="fas fa-edit"></i></button></td>\
+            </tr>'
+        })
+
+        table.html(content)
+        setDatatable('.datatable')
+      })
+    })

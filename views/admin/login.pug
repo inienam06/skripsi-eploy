@@ -1,0 +1,84 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title AdminLTE 3 | Log in
+  //- Google Font: Source Sans Pro
+  link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback')
+  //- Font Awesome
+  link(rel='stylesheet' href='/plugins/fontawesome-free/css/all.min.css')
+  //- Theme style
+  link(rel='stylesheet' href='/css/adminlte.min.css')
+  link(rel='stylesheet' href='/css/loader.css')
+
+body.hold-transition.login-page
+  .loader-container.loader-inactive
+    .loader
+  .login-box
+    .login-logo
+      a(href="")
+        b Admin
+        | LTE
+
+    .card
+      .card-body.login-card-body
+        p.login-box-msg Masuk untuk menuju ke Dashboard
+
+        .input-group.mb-3
+          input.form-control(type="text" placeholder="Username" name="username")
+          .input-group-append
+            .input-group-text
+              span.fas.fa-user
+        .input-group.mb-3
+          input.form-control(type="password" placeholder="Password" name="password")
+          .input-group-append
+            .input-group-text
+              span.fas.fa-lock
+        button.btn.btn-primary.btn-block(type="submit" onclick="signin()") Sign In
+
+  //- jQuery
+  script(src='/plugins/jquery/jquery.min.js')
+  //- Bootstrap 4
+  script(src='/plugins/bootstrap/js/bootstrap.bundle.min.js')
+  //- AdminLTE App
+  script(src='/js/adminlte.min.js')
+  script.
+    function signin() {
+      var username = $('input[name="username"]').val()
+      var password = $('input[name="password"]').val()
+
+      loading(true)
+      $.ajax({
+        url: '/admin/login',
+        method: 'POST',
+        data: {
+          username: username,
+          password: password
+        },
+        cache: false,
+        success: function (response) {
+          loading(false)
+          console.log(response)
+
+          if(response.status) {
+            document.location = '/admin/login/' + response.data.id_admin
+          } else {
+            alert(response.message)
+          }
+        },
+        error: function () {
+          loading(false)
+          alert('Error')
+        }
+      })
+    }
+
+    function loading(isLoading) {
+      if(isLoading) {
+        $('.loader-container').removeClass('loader-inactive')
+        $('.loader-container').addClass('loader-active')
+      } else {
+        $('.loader-container').removeClass('loader-active')
+        $('.loader-container').addClass('loader-inactive')
+      }
+    }

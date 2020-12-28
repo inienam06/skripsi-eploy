@@ -1,0 +1,79 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Tambah Data
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data User
+              li.breadcrumb-item.active Tambah
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Tambah
+            .card-tools
+              a.btn.btn-tool(href='/admin/user/tambah' data-toggle="tooltip" title='Tambah' onclick="")
+                i.fas.fa-plus
+          .card-body
+            .form-group
+              label Nama
+              input.form-control#nama(type="text" autocomplete="off")
+            .form-group
+              label Username
+              input.form-control#username(type="text" autocomplete="off")
+            .form-group
+              label Password
+              input.form-control#password(type="password" autocomplete="off")
+            .form-group
+              label Level
+              select.form-control#id_level
+                each level in dataLevel
+                  option(value=level.id_level) #{level.nama_level}
+            .form-group
+              button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
+              button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
+
+block script
+  script.
+    function simpan() {
+      var nama = $('#nama').val()
+      var username = $('#username').val()
+      var password = $('#password').val()
+      var id_level = $('#id_level').find('option:selected').val()
+      var body = {
+        nama: nama,
+        username: username,
+        password: password,
+        id_level: id_level
+      }
+
+      if(isEmpty(nama) || isEmpty(username) || isEmpty(password)) {
+        alert('Data belum lengkap')
+        return
+      }
+
+      post({
+        url: '/admin/user/simpan',
+        data: body,
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        alert(response.message)
+
+        if(response.status) {
+          document.location = '/admin/user'
+        }
+      })
+    }
