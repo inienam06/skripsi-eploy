@@ -8,6 +8,8 @@ var indexController = require(__dirname +
     "/../controllers/admin/indexController");
 var userController = require(__dirname +
     "/../controllers/admin/userController");
+var areaController = require(__dirname +
+    "/../controllers/admin/areaController");
 
 /* GET home page. */
 router.get("/", indexController.index);
@@ -22,5 +24,18 @@ router.get("/user", userController.index);
 router.get("/user/datalist", userController.datalist);
 router.get("/user/tambah", userController.tambah);
 router.post("/user/simpan", userController.simpan);
+router.get("/user/ubah/:id", userController.ubah);
+router.post("/user/perbarui", userController.perbarui);
+router.post("/user/hapus", userController.hapus);
+
+/* Area */
+router.use("/area", indexController.authenticate);
+router.get("/area", areaController.index);
+router.get("/area/datalist", areaController.datalist);
+router.get("/area/tambah", areaController.tambah);
+router.post("/area/simpan", areaController.simpan);
+router.get("/area/ubah/:id", areaController.ubah);
+router.post("/area/perbarui", areaController.perbarui);
+router.post("/area/hapus", areaController.hapus);
 
 module.exports = router;

@@ -7,30 +7,28 @@ block content
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1 Data User
+            h1 Data Area
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
                 a(href='#') Home
-              li.breadcrumb-item.active Data User
+              li.breadcrumb-item.active Data Area
       //- /.container-fluid
       //- Main content
       section.content
         //- Default box
         .card
           .card-header
-            h3.card-title Data User
+            h3.card-title Data Area
             .card-tools
-              a.btn.btn-tool(href='/admin/user/tambah' data-toggle="tooltip" title='Tambah' onclick="")
+              a.btn.btn-tool(href='/admin/area/tambah' data-toggle="tooltip" title='Tambah' onclick="")
                 i.fas.fa-plus
           .card-body
             table.table.table-hover.table-bordered.table-stripped.datatable
               thead
                 tr
                   th(width="1%") No
-                  th Nama
-                  th Username
-                  th Level
+                  th Nama Area
                   th(width="15%") Action
               tbody
 
@@ -42,7 +40,7 @@ block script
 
     function getData() {
       get({
-        url: '/admin/user/datalist',
+        url: '/admin/area/datalist',
         isLoading: true
         }, function(response) {
           console.log(response)
@@ -51,13 +49,11 @@ block script
           var table = $('.table').find('tbody')
           var content = ''
 
-          $.each(response.data, (index, user) => {
+          $.each(response.data, (index, area) => {
           content += '<tr>\
             <td align="center">'+(no++)+'</td>\
-            <td>'+(user.nama)+'</td>\
-            <td>'+(user.username)+'</td>\
-            <td>'+(user.nama_level)+'</td>\
-            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+user.id_user+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button> <button class="btn btn-sm btn-info" onclick="ubah('+user.id_user+')" data-toggle="tooltip" title="Ubah"><i class="fas fa-edit"></i></button></td>\
+            <td>'+(area.nama_area)+'</td>\
+            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+area.id_area+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button> <button class="btn btn-sm btn-info" onclick="ubah('+area.id_area+')" data-toggle="tooltip" title="Ubah"><i class="fas fa-edit"></i></button></td>\
             </tr>'
           })
 
@@ -68,15 +64,15 @@ block script
 
     function ubah(id)
     {
-      document.location = '/admin/user/ubah/' + id
+      document.location = '/admin/area/ubah/' + id
     }
 
     function hapus(id)
     {
-      if(confirm('Anda yakin akan menghapus user tersebut ?'))
+      if(confirm('Anda yakin akan menghapus area tersebut ?'))
       {
         post({
-          url: '/admin/user/hapus',
+          url: '/admin/area/hapus',
           data: {
           id: id
           },
@@ -87,7 +83,7 @@ block script
             alert(response.message)
 
             if(response.status) {
-              document.location = '/admin/user'
+              document.location = '/admin/area'
             }
         })
       }

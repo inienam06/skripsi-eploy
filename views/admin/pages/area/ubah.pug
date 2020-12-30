@@ -7,36 +7,25 @@ block content
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1 Tambah Data
+            h1 Ubah Data
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
                 a(href='#') Home
               li.breadcrumb-item
                 a(href='#') Data User
-              li.breadcrumb-item.active Tambah
+              li.breadcrumb-item.active Ubah
       //- /.container-fluid
       //- Main content
       section.content
         //- Default box
         .card
           .card-header
-            h3.card-title Tambah
+            h3.card-title Ubah
           .card-body
             .form-group
               label Nama
-              input.form-control#nama(type="text" autocomplete="off")
-            .form-group
-              label Username
-              input.form-control#username(type="text" autocomplete="off")
-            .form-group
-              label Password
-              input.form-control#password(type="password" autocomplete="off")
-            .form-group
-              label Level
-              select.form-control#id_level
-                each level in dataLevel
-                  option(value=level.id_level) #{level.nama_level}
+              input.form-control#nama_area(type="text" autocomplete="off" value=data.nama_area)
             .form-group
               button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
               button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
@@ -44,24 +33,20 @@ block content
 block script
   script.
     function simpan() {
-      var nama = $('#nama').val()
-      var username = $('#username').val()
-      var password = $('#password').val()
-      var id_level = $('#id_level').find('option:selected').val()
+      var id = #{id}
+      var nama_area = $('#nama_area').val()
       var body = {
-        nama: nama,
-        username: username,
-        password: password,
-        id_level: id_level
+        id: id,
+        nama_area: nama_area,
       }
 
-      if(isEmpty(nama) || isEmpty(username) || isEmpty(password)) {
+      if(isEmpty(nama_area)) {
         alert('Data belum lengkap')
         return
       }
 
       post({
-        url: '/admin/user/simpan',
+        url: '/admin/area/perbarui',
         data: body,
         isLoading: true
       }, function(response) {
@@ -70,7 +55,7 @@ block script
         alert(response.message)
 
         if(response.status) {
-          document.location = '/admin/user'
+          document.location = '/admin/area'
         }
       })
     }
