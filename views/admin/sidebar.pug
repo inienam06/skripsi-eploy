@@ -5,18 +5,37 @@ nav.mt-2
       a.nav-link(href='/admin')
         i.nav-icon.fas.fa-home
         p Dashboard
-        span.right.badge.badge-danger
+    li.nav-item
+      a.nav-link(href='#')
+        i.nav-icon.fas.fa-cubes
+        p Data Barang
+          i.fas.fa-angle-left.right
+      ul.nav.nav-treeview
+        li.nav-item
+          a.nav-link(href='/admin/barang-masuk')
+            i.nav-icon.far.fa-circle
+            p Barang Masuk
+        li.nav-item
+          a.nav-link(href='/admin/barang-keluar')
+            i.nav-icon.far.fa-circle
+            p Barang Keluar
     li.nav-header MASTER DATA
     li.nav-item
       a.nav-link(href='/admin/user')
         i.nav-icon.fas.fa-user
         p User
-        span.right.badge.badge-danger
     li.nav-item
       a.nav-link(href='/admin/area')
         i.nav-icon.fas.fa-building
         p Area
-        span.right.badge.badge-danger
+    li.nav-item
+      a.nav-link(href='/admin/spesifikasi')
+        i.nav-icon.fas.fa-file-alt
+        p Spesifikasi
+    li.nav-item
+      a.nav-link(href='/admin/jenis-barang')
+        i.nav-icon.fas.fa-file-alt
+        p Jenis Barang
     li.nav-header PENGATURAN
     li.nav-item
       a.nav-link(href='/admin/logout' onclick="return confirm('Yakin ingin keluar dari akun anda ?')")

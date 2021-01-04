@@ -1,0 +1,61 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Ubah Data
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data Jenis Barang
+              li.breadcrumb-item.active Ubah
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Ubah
+          .card-body
+            .form-group
+              label Nama
+              input.form-control#nama_jenis_barang(type="text" autocomplete="off" value=data.nama_jenis_barang)
+            .form-group
+              button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
+              button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
+
+block script
+  script.
+    function simpan() {
+      var id = #{id}
+      var nama_jenis_barang = $('#nama_jenis_barang').val()
+      var body = {
+        id: id,
+        nama_jenis_barang: nama_jenis_barang,
+      }
+
+      if(isEmpty(nama_jenis_barang)) {
+        alert('Data belum lengkap')
+        return
+      }
+
+      post({
+        url: '/admin/jenis-barang/perbarui',
+        data: body,
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        alert(response.message)
+
+        if(response.status) {
+          document.location = '/admin/jenis-barang'
+        }
+      })
+    }

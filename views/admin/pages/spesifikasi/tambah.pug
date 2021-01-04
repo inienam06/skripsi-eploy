@@ -1,0 +1,62 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Tambah Data
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data Spesifikasi
+              li.breadcrumb-item.active Tambah
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Tambah
+          .card-body
+            .form-group
+              label Nama Spesifikasi
+              input.form-control#nama_spesifikasi(type="text" autocomplete="off")
+            .form-group
+              button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
+              button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
+
+block script
+  script.
+    function simpan() {
+      var nama_spesifikasi = $('#nama_spesifikasi').val()
+      var username = $('#username').val()
+      var password = $('#password').val()
+      var id_level = $('#id_level').find('option:selected').val()
+      var body = {
+        nama_spesifikasi: nama_spesifikasi,
+      }
+
+      if(isEmpty(nama_spesifikasi)) {
+        alert('Data belum lengkap')
+        return
+      }
+
+      post({
+        url: '/admin/spesifikasi/simpan',
+        data: body,
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        alert(response.message)
+
+        if(response.status) {
+          document.location = '/admin/spesifikasi'
+        }
+      })
+    }

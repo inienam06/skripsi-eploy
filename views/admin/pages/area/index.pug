@@ -49,11 +49,11 @@ block script
           var table = $('.table').find('tbody')
           var content = ''
 
-          $.each(response.data, (index, area) => {
+          $.each(response.data, (index, data) => {
           content += '<tr>\
             <td align="center">'+(no++)+'</td>\
-            <td>'+(area.nama_area)+'</td>\
-            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+area.id_area+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button> <button class="btn btn-sm btn-info" onclick="ubah('+area.id_area+')" data-toggle="tooltip" title="Ubah"><i class="fas fa-edit"></i></button></td>\
+            <td>'+(data.nama_area)+'</td>\
+            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+data.id_area+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button> <button class="btn btn-sm btn-info" onclick="ubah('+data.id_area+')" data-toggle="tooltip" title="Ubah"><i class="fas fa-edit"></i></button></td>\
             </tr>'
           })
 
