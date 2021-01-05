@@ -14,6 +14,10 @@ var spesifikasiController = require(__dirname +
     "/../controllers/admin/spesifikasiController");
 var jenisBarangController = require(__dirname +
     "/../controllers/admin/jenisBarangController");
+var barangController = require(__dirname +
+    "/../controllers/admin/barangController");
+var karyawanController = require(__dirname +
+    "/../controllers/admin/karyawanController");
 
 /* GET home page. */
 router.get("/", indexController.index);
@@ -31,6 +35,16 @@ router.post("/user/simpan", userController.simpan);
 router.get("/user/ubah/:id", userController.ubah);
 router.post("/user/perbarui", userController.perbarui);
 router.post("/user/hapus", userController.hapus);
+
+/* Karyawan */
+router.use("/karyawan", indexController.authenticate);
+router.get("/karyawan", karyawanController.index);
+router.get("/karyawan/datalist", karyawanController.datalist);
+router.get("/karyawan/tambah", karyawanController.tambah);
+router.post("/karyawan/simpan", karyawanController.simpan);
+router.get("/karyawan/ubah/:id", karyawanController.ubah);
+router.post("/karyawan/perbarui", karyawanController.perbarui);
+router.post("/karyawan/hapus", karyawanController.hapus);
 
 /* Area */
 router.use("/area", indexController.authenticate);
@@ -61,5 +75,15 @@ router.post("/jenis-barang/simpan", jenisBarangController.simpan);
 router.get("/jenis-barang/ubah/:id", jenisBarangController.ubah);
 router.post("/jenis-barang/perbarui", jenisBarangController.perbarui);
 router.post("/jenis-barang/hapus", jenisBarangController.hapus);
+
+/* Barang */
+router.use("/barang", indexController.authenticate);
+router.get("/barang", barangController.index);
+router.get("/barang/datalist", barangController.datalist);
+router.get("/barang/tambah", barangController.tambah);
+router.post("/barang/simpan", barangController.simpan);
+router.get("/barang/ubah/:id", barangController.ubah);
+router.post("/barang/perbarui", barangController.perbarui);
+router.post("/barang/hapus", barangController.hapus);
 
 module.exports = router;

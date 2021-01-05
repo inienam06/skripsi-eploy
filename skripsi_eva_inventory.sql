@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 04, 2021 at 08:38 AM
+-- Generation Time: Jan 05, 2021 at 02:42 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -24,6 +24,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ref_departemen`
+--
+
+CREATE TABLE `ref_departemen` (
+  `id_departemen` int(11) NOT NULL,
+  `nama_departemen` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ref_level`
 --
 
@@ -32,11 +43,6 @@ CREATE TABLE `ref_level` (
   `nama_level` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Truncate table before insert `ref_level`
---
-
-TRUNCATE TABLE `ref_level`;
 --
 -- Dumping data for table `ref_level`
 --
@@ -59,11 +65,6 @@ CREATE TABLE `ref_spesifikasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Truncate table before insert `ref_spesifikasi`
---
-
-TRUNCATE TABLE `ref_spesifikasi`;
---
 -- Dumping data for table `ref_spesifikasi`
 --
 
@@ -85,6 +86,25 @@ INSERT INTO `ref_spesifikasi` (`id_spesifikasi`, `nama_spesifikasi`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ref_status`
+--
+
+CREATE TABLE `ref_status` (
+  `id_status` int(11) NOT NULL,
+  `nama_status` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ref_status`
+--
+
+INSERT INTO `ref_status` (`id_status`, `nama_status`) VALUES
+(1, 'Baru'),
+(2, 'Service');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_admin`
 --
 
@@ -95,11 +115,6 @@ CREATE TABLE `tbl_admin` (
   `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Truncate table before insert `tbl_admin`
---
-
-TRUNCATE TABLE `tbl_admin`;
 --
 -- Dumping data for table `tbl_admin`
 --
@@ -118,11 +133,61 @@ CREATE TABLE `tbl_area` (
   `nama_area` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Truncate table before insert `tbl_area`
+-- Table structure for table `tbl_barang`
 --
 
-TRUNCATE TABLE `tbl_area`;
+CREATE TABLE `tbl_barang` (
+  `id_barang` int(11) NOT NULL,
+  `id_jenis_barang` int(11) NOT NULL,
+  `serial_number` varchar(20) NOT NULL,
+  `nama_barang` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_barang`
+--
+
+INSERT INTO `tbl_barang` (`id_barang`, `id_jenis_barang`, `serial_number`, `nama_barang`) VALUES
+(2, 4, 'C8PY183463', 'Zyrex');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_barang_keluar`
+--
+
+CREATE TABLE `tbl_barang_keluar` (
+  `id_barang_keluar` int(11) NOT NULL,
+  `id_karyawan_pengirim` int(11) NOT NULL,
+  `id_karyawan_penerima` int(11) NOT NULL,
+  `id_area` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `jumlah` int(5) NOT NULL,
+  `keterangan` text DEFAULT NULL,
+  `id_status` int(11) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_barang_masuk`
+--
+
+CREATE TABLE `tbl_barang_masuk` (
+  `id_barang_masuk` int(11) NOT NULL,
+  `id_karyawan` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `nama_pengirim` varchar(50) NOT NULL,
+  `jumlah` int(5) NOT NULL,
+  `keterangan` text NOT NULL,
+  `id_status` int(11) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
@@ -135,16 +200,69 @@ CREATE TABLE `tbl_jenis_barang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Truncate table before insert `tbl_jenis_barang`
---
-
-TRUNCATE TABLE `tbl_jenis_barang`;
---
 -- Dumping data for table `tbl_jenis_barang`
 --
 
 INSERT INTO `tbl_jenis_barang` (`id_jenis_barang`, `nama_jenis_barang`) VALUES
-(2, 'Monitor Zyrex');
+(4, 'Monitor'),
+(5, 'CPU'),
+(6, 'Printer');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_karyawan`
+--
+
+CREATE TABLE `tbl_karyawan` (
+  `id_karyawan` int(11) NOT NULL,
+  `id_departemen` int(11) NOT NULL,
+  `npp` varchar(20) DEFAULT NULL,
+  `nama` varchar(30) NOT NULL,
+  `alamat` text DEFAULT NULL,
+  `no_telp` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_masalah`
+--
+
+CREATE TABLE `tbl_masalah` (
+  `id_masalah` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `id_status` int(11) NOT NULL,
+  `tanggal_masalah` datetime NOT NULL,
+  `tanggal_selesai` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_opname`
+--
+
+CREATE TABLE `tbl_opname` (
+  `id_opname` int(11) NOT NULL,
+  `id_karyawan` int(11) NOT NULL,
+  `id_area` int(11) NOT NULL,
+  `tanggal_pencatatan` date NOT NULL,
+  `tanggal_selesai` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_opname_spesifikasi`
+--
+
+CREATE TABLE `tbl_opname_spesifikasi` (
+  `id_opname_spesifikasi` int(11) NOT NULL,
+  `id_opname` int(11) NOT NULL,
+  `id_spesifikasi` int(11) NOT NULL,
+  `keterangan` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -161,13 +279,14 @@ CREATE TABLE `tbl_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Truncate table before insert `tbl_user`
---
-
-TRUNCATE TABLE `tbl_user`;
---
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `ref_departemen`
+--
+ALTER TABLE `ref_departemen`
+  ADD PRIMARY KEY (`id_departemen`);
 
 --
 -- Indexes for table `ref_level`
@@ -182,6 +301,12 @@ ALTER TABLE `ref_spesifikasi`
   ADD PRIMARY KEY (`id_spesifikasi`);
 
 --
+-- Indexes for table `ref_status`
+--
+ALTER TABLE `ref_status`
+  ADD PRIMARY KEY (`id_status`);
+
+--
 -- Indexes for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
@@ -194,10 +319,52 @@ ALTER TABLE `tbl_area`
   ADD PRIMARY KEY (`id_area`);
 
 --
+-- Indexes for table `tbl_barang`
+--
+ALTER TABLE `tbl_barang`
+  ADD PRIMARY KEY (`id_barang`);
+
+--
+-- Indexes for table `tbl_barang_keluar`
+--
+ALTER TABLE `tbl_barang_keluar`
+  ADD PRIMARY KEY (`id_barang_keluar`);
+
+--
+-- Indexes for table `tbl_barang_masuk`
+--
+ALTER TABLE `tbl_barang_masuk`
+  ADD PRIMARY KEY (`id_barang_masuk`);
+
+--
 -- Indexes for table `tbl_jenis_barang`
 --
 ALTER TABLE `tbl_jenis_barang`
   ADD PRIMARY KEY (`id_jenis_barang`);
+
+--
+-- Indexes for table `tbl_karyawan`
+--
+ALTER TABLE `tbl_karyawan`
+  ADD PRIMARY KEY (`id_karyawan`);
+
+--
+-- Indexes for table `tbl_masalah`
+--
+ALTER TABLE `tbl_masalah`
+  ADD PRIMARY KEY (`id_masalah`);
+
+--
+-- Indexes for table `tbl_opname`
+--
+ALTER TABLE `tbl_opname`
+  ADD PRIMARY KEY (`id_opname`);
+
+--
+-- Indexes for table `tbl_opname_spesifikasi`
+--
+ALTER TABLE `tbl_opname_spesifikasi`
+  ADD PRIMARY KEY (`id_opname_spesifikasi`);
 
 --
 -- Indexes for table `tbl_user`
@@ -208,6 +375,12 @@ ALTER TABLE `tbl_user`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `ref_departemen`
+--
+ALTER TABLE `ref_departemen`
+  MODIFY `id_departemen` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ref_level`
@@ -222,6 +395,12 @@ ALTER TABLE `ref_spesifikasi`
   MODIFY `id_spesifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT for table `ref_status`
+--
+ALTER TABLE `ref_status`
+  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
@@ -234,10 +413,52 @@ ALTER TABLE `tbl_area`
   MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `tbl_barang`
+--
+ALTER TABLE `tbl_barang`
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbl_barang_keluar`
+--
+ALTER TABLE `tbl_barang_keluar`
+  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_barang_masuk`
+--
+ALTER TABLE `tbl_barang_masuk`
+  MODIFY `id_barang_masuk` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_jenis_barang`
 --
 ALTER TABLE `tbl_jenis_barang`
-  MODIFY `id_jenis_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_jenis_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `tbl_karyawan`
+--
+ALTER TABLE `tbl_karyawan`
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_masalah`
+--
+ALTER TABLE `tbl_masalah`
+  MODIFY `id_masalah` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_opname`
+--
+ALTER TABLE `tbl_opname`
+  MODIFY `id_opname` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_opname_spesifikasi`
+--
+ALTER TABLE `tbl_opname_spesifikasi`
+  MODIFY `id_opname_spesifikasi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`

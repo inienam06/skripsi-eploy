@@ -1,0 +1,73 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Ubah Data
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data Barang
+              li.breadcrumb-item.active Ubah
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Ubah
+          .card-body
+            .form-group
+              label Jenis Barang
+              select.form-control#id_jenis_barang
+                each jenis in dataJenis
+                  option(value=jenis.id_jenis_barang selected=((data.id_jenis_barang == jenis.id_jenis_barang) ? true : false)) #{jenis.nama_jenis_barang}
+            .form-group
+              label Serial Number
+              input.form-control#serial_number(type="text" autocomplete="off" value=data.serial_number)
+            .form-group
+              label Nama Barang
+              input.form-control#nama_barang(type="text" autocomplete="off" value=data.nama_barang)
+            .form-group
+              button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
+              button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
+
+block script
+  script.
+    function simpan() {
+      var id = #{id}
+      var id_jenis_barang = $('#id_jenis_barang').find('option:selected').val()
+      var serial_number = $('#serial_number').val()
+      var nama_barang = $('#nama_barang').val()
+      var body = {
+        id: id,
+        id_jenis_barang: id_jenis_barang,
+        serial_number: serial_number,
+        nama_barang: nama_barang
+      }
+
+      if(isEmpty(serial_number) || isEmpty(nama_barang)) {
+        alert('Data belum lengkap')
+        return
+      }
+
+      post({
+        url: '/admin/barang/perbarui',
+        data: body,
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        alert(response.message)
+
+        if(response.status) {
+          document.location = '/admin/barang'
+        }
+      })
+    }

@@ -13,7 +13,7 @@ block content
               li.breadcrumb-item
                 a(href='#') Home
               li.breadcrumb-item
-                a(href='#') Data Jenis Barang
+                a(href='#') Data Barang
               li.breadcrumb-item.active Tambah
       //- /.container-fluid
       //- Main content
@@ -24,8 +24,16 @@ block content
             h3.card-title Tambah
           .card-body
             .form-group
-              label Nama Jenis Barang
-              input.form-control#nama_jenis_barang(type="text" autocomplete="off")
+              label Jenis
+              select.form-control#id_jenis_barang
+                each jenis in dataJenis
+                  option(value=jenis.id_jenis_barang) #{jenis.nama_jenis_barang}
+            .form-group
+              label Serial Number
+              input.form-control#serial_number(type="text" autocomplete="off")
+            .form-group
+              label Nama Barang
+              input.form-control#nama_barang(type="text" autocomplete="off")
             .form-group
               button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
               button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
@@ -33,18 +41,22 @@ block content
 block script
   script.
     function simpan() {
-      var nama_jenis_barang = $('#nama_jenis_barang').val()
+      var id_jenis_barang = $('#id_jenis_barang').find('option:selected').val()
+      var serial_number = $('#serial_number').val()
+      var nama_barang = $('#nama_barang').val()
       var body = {
-        nama_jenis_barang: nama_jenis_barang,
+        id_jenis_barang: id_jenis_barang,
+        serial_number: serial_number,
+        nama_barang: nama_barang,
       }
 
-      if(isEmpty(nama_jenis_barang)) {
+      if(isEmpty(serial_number) || isEmpty(nama_barang)) {
         alert('Data belum lengkap')
         return
       }
 
       post({
-        url: '/admin/jenis-barang/simpan',
+        url: '/admin/barang/simpan',
         data: body,
         isLoading: true
       }, function(response) {
@@ -53,7 +65,7 @@ block script
         alert(response.message)
 
         if(response.status) {
-          document.location = '/admin/jenis-barang'
+          document.location = '/admin/barang'
         }
       })
     }

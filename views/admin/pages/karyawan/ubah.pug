@@ -1,0 +1,76 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Ubah Data
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data Karyawan
+              li.breadcrumb-item.active Ubah
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Ubah
+          .card-body
+            .form-group
+              label NPP
+              input.form-control#npp(type="text" autocomplete="off" value=data.npp)
+            .form-group
+              label Nama
+              input.form-control#nama(type="text" autocomplete="off" value=data.nama)
+            .form-group
+              label Alamat
+              textarea.form-control#alamat(type="text" autocomplete="off" row="3") #{data.alamat}
+            .form-group
+              label No. Telepon
+              input.form-control#no_telp(type="text" autocomplete="off" onkeyup="return event.charCode >= 48 && event.charCode <= 57" value=data.no_telp)
+            .form-group
+              button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
+              button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
+
+block script
+  script.
+    function simpan() {
+      var id = #{id}
+      var npp = $('#npp').val()
+      var nama = $('#nama').val()
+      var alamat = $('#alamat').val()
+      var no_telp = $('#no_telp').val()
+      var body = {
+        id: id,
+        npp: npp,
+        nama: nama,
+        alamat: alamat,
+        no_telp: no_telp,
+      }
+
+      if(isEmpty(npp) || isEmpty(nama)) {
+        alert('Data belum lengkap')
+        return
+      }
+
+      post({
+        url: '/admin/karyawan/perbarui',
+        data: body,
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        alert(response.message)
+
+        if(response.status) {
+          document.location = '/admin/karyawan'
+        }
+      })
+    }
