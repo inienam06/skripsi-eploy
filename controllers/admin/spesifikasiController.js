@@ -5,22 +5,25 @@ let controller = {
         res.render("admin/pages/spesifikasi/index");
     },
     datalist: function(req, res) {
-        conn.query("SELECT* FROM ref_spesifikasi", function(error, result) {
-            if (!error) {
-                res.status(200).json({
-                    status: true,
-                    code: 200,
-                    message: "Data Spesifikasi",
-                    data: result,
-                });
-            } else {
-                res.status(200).json({
-                    status: false,
-                    code: 500,
-                    message: error.message,
-                });
+        conn.query(
+            "SELECT* FROM ref_spesifikasi ORDER BY id_spesifikasi DESC",
+            function(error, result) {
+                if (!error) {
+                    res.status(200).json({
+                        status: true,
+                        code: 200,
+                        message: "Data Spesifikasi",
+                        data: result,
+                    });
+                } else {
+                    res.status(200).json({
+                        status: false,
+                        code: 500,
+                        message: error.message,
+                    });
+                }
             }
-        });
+        );
     },
     tambah: function(req, res) {
         res.render("admin/pages/spesifikasi/tambah");

@@ -7,32 +7,28 @@ block content
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1 Data Karyawan
+            h1 Data Departemen
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
                 a(href='#') Home
-              li.breadcrumb-item.active Data Karyawan
+              li.breadcrumb-item.active Data Departemen
       //- /.container-fluid
       //- Main content
       section.content
         //- Default box
         .card
           .card-header
-            h3.card-title Data Karyawan
+            h3.card-title Data Departemen
             .card-tools
-              a.btn.btn-tool(href='/admin/karyawan/tambah' data-toggle="tooltip" title='Tambah' onclick="")
+              a.btn.btn-tool(href='/admin/departemen/tambah' data-toggle="tooltip" title='Tambah' onclick="")
                 i.fas.fa-plus
           .card-body
             table.table.table-hover.table-bordered.table-stripped.datatable
               thead
                 tr
                   th(width="1%") No
-                  th NPP
-                  th Nama
-                  th Departemen
-                  th Alamat
-                  th No. Telepon
+                  th Nama Departemen
                   th(width="15%") Action
               tbody
 
@@ -44,7 +40,7 @@ block script
 
     function getData() {
       get({
-        url: '/admin/karyawan/datalist',
+        url: '/admin/departemen/datalist',
         isLoading: true
         }, function(response) {
           console.log(response)
@@ -56,12 +52,8 @@ block script
           $.each(response.data, (index, data) => {
           content += '<tr>\
             <td align="center">'+(no++)+'</td>\
-            <td>'+(data.npp)+'</td>\
-            <td>'+(data.nama)+'</td>\
             <td>'+(data.nama_departemen)+'</td>\
-            <td>'+(data.alamat)+'</td>\
-            <td>'+(data.no_telp)+'</td>\
-            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+data.id_karyawan+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button> <button class="btn btn-sm btn-info" onclick="ubah('+data.id_karyawan+')" data-toggle="tooltip" title="Ubah"><i class="fas fa-edit"></i></button></td>\
+            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+data.id_departemen+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button> <button class="btn btn-sm btn-info" onclick="ubah('+data.id_departemen+')" data-toggle="tooltip" title="Ubah"><i class="fas fa-edit"></i></button></td>\
             </tr>'
           })
 
@@ -72,15 +64,15 @@ block script
 
     function ubah(id)
     {
-      document.location = '/admin/karyawan/ubah/' + id
+      document.location = '/admin/departemen/ubah/' + id
     }
 
     function hapus(id)
     {
-      if(confirm('Anda yakin akan menghapus karyawan tersebut ?'))
+      if(confirm('Anda yakin akan menghapus departemen tersebut ?'))
       {
         post({
-          url: '/admin/karyawan/hapus',
+          url: '/admin/departemen/hapus',
           data: {
           id: id
           },
@@ -91,7 +83,7 @@ block script
             alert(response.message)
 
             if(response.status) {
-              document.location = '/admin/karyawan'
+              document.location = '/admin/departemen'
             }
         })
       }

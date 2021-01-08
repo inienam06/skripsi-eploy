@@ -2,17 +2,17 @@ var conn = require(__dirname + "/../../config/database");
 
 let controller = {
     index: function(req, res) {
-        res.render("admin/pages/jenis-barang/index");
+        res.render("admin/pages/departemen/index");
     },
     datalist: function(req, res) {
         conn.query(
-            "SELECT * FROM tbl_jenis_barang ORDER BY id_jenis_barang DESC",
+            "SELECT * FROM ref_departemen ORDER BY id_departemen DESC",
             function(error, result) {
                 if (!error) {
                     res.status(200).json({
                         status: true,
                         code: 200,
-                        message: "Data Jenis Barang",
+                        message: "Data Departemen",
                         data: result,
                     });
                 } else {
@@ -26,10 +26,10 @@ let controller = {
         );
     },
     tambah: function(req, res) {
-        res.render("admin/pages/jenis-barang/tambah");
+        res.render("admin/pages/departemen/tambah");
     },
     simpan: function(req, res) {
-        if (req.body.nama_jenis_barang.trim() == "") {
+        if (req.body.nama_departemen.trim() == "") {
             res.status(200).json({
                 status: false,
                 code: 406,
@@ -47,8 +47,8 @@ let controller = {
                 }
 
                 conn.query(
-                    "INSERT INTO tbl_jenis_barang SET ?", {
-                        nama_jenis_barang: req.body.nama_jenis_barang,
+                    "INSERT INTO ref_departemen SET ?", {
+                        nama_departemen: req.body.nama_departemen,
                     },
                     function(error, result) {
                         if (error) {
@@ -73,7 +73,7 @@ let controller = {
                             res.status(200).json({
                                 status: true,
                                 code: 200,
-                                message: "Jenis Barang berhasil ditambahkan",
+                                message: "Departemen berhasil ditambahkan",
                             });
                         });
                     }
@@ -85,19 +85,19 @@ let controller = {
         var id = req.params.id;
 
         conn.query(
-            "SELECT * FROM tbl_jenis_barang WHERE id_jenis_barang = ? LIMIT 1", [id],
+            "SELECT * FROM ref_departemen WHERE id_departemen = ? LIMIT 1", [id],
             function(error, result) {
                 if (error) {
                     res.render("error", { error: error.message });
                 }
 
                 if (result[0] != undefined) {
-                    res.render("admin/pages/jenis-barang/ubah", {
+                    res.render("admin/pages/departemen/ubah", {
                         data: result[0],
                         id: id,
                     });
                 } else {
-                    res.redirect("admin/jenis-barang");
+                    res.redirect("admin/departemen");
                 }
             }
         );
@@ -105,7 +105,7 @@ let controller = {
     perbarui: function(req, res) {
         var id = req.body.id;
 
-        if (req.body.nama_jenis_barang.trim() == "") {
+        if (req.body.nama_departemen.trim() == "") {
             res.status(200).json({
                 status: false,
                 code: 406,
@@ -113,7 +113,7 @@ let controller = {
             });
         } else {
             conn.query(
-                "UPDATE tbl_jenis_barang SET nama_jenis_barang = ? WHERE id_jenis_barang = ?", [req.body.nama_jenis_barang, id],
+                "UPDATE ref_departemen SET nama_departemen = ? WHERE id_departemen = ?", [req.body.nama_departemen, id],
                 function(error, result) {
                     if (error) {
                         res.status(200).json({
@@ -126,7 +126,7 @@ let controller = {
                     res.status(200).json({
                         status: true,
                         code: 200,
-                        message: "Jenis Barang berhasil diperbarui",
+                        message: "Departemen berhasil diperbarui",
                     });
                 }
             );
@@ -136,7 +136,7 @@ let controller = {
         var id = req.body.id;
 
         conn.query(
-            "DELETE FROM tbl_jenis_barang WHERE id_jenis_barang = ?", [id],
+            "DELETE FROM ref_departemen WHERE id_departemen = ?", [id],
             function(error, result) {
                 if (error) {
                     res.status(200).json({
@@ -149,7 +149,7 @@ let controller = {
                 res.status(200).json({
                     status: true,
                     code: 200,
-                    message: "Jenis Barang berhasil dihapus",
+                    message: "Departemen berhasil dihapus",
                 });
             }
         );

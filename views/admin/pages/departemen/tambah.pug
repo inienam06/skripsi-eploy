@@ -7,25 +7,25 @@ block content
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1 Ubah Data
+            h1 Tambah Data
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
                 a(href='#') Home
               li.breadcrumb-item
-                a(href='#') Data Area
-              li.breadcrumb-item.active Ubah
+                a(href='#') Data Departemen
+              li.breadcrumb-item.active Tambah
       //- /.container-fluid
       //- Main content
       section.content
         //- Default box
         .card
           .card-header
-            h3.card-title Ubah
+            h3.card-title Tambah
           .card-body
             .form-group
-              label Nama Area
-              input.form-control#nama_area(type="text" autocomplete="off" value=data.nama_area)
+              label Nama Departemen
+              input.form-control#nama_departemen(type="text" autocomplete="off")
             .form-group
               button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
               button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
@@ -33,20 +33,18 @@ block content
 block script
   script.
     function simpan() {
-      var id = #{id}
-      var nama_area = $('#nama_area').val()
+      var nama_departemen = $('#nama_departemen').val()
       var body = {
-        id: id,
-        nama_area: nama_area,
+        nama_departemen: nama_departemen,
       }
 
-      if(isEmpty(nama_area)) {
+      if(isEmpty(nama_departemen)) {
         alert('Data belum lengkap')
         return
       }
 
       post({
-        url: '/admin/area/perbarui',
+        url: '/admin/departemen/simpan',
         data: body,
         isLoading: true
       }, function(response) {
@@ -55,7 +53,7 @@ block script
         alert(response.message)
 
         if(response.status) {
-          document.location = '/admin/area'
+          document.location = '/admin/departemen'
         }
       })
     }

@@ -8,7 +8,7 @@ let controller = {
     datalist: function(req, res) {
         conn.query(
             "SELECT tu.id_user, tu.nama, tu.username, rf.nama_level FROM tbl_user as tu\
-            LEFT JOIN ref_level as rf ON rf.id_level = tu.id_level",
+            LEFT JOIN ref_level as rf ON rf.id_level = tu.id_level ORDER BY tu.id_user DESC",
             function(error, result) {
                 if (!error) {
                     res.status(200).json({

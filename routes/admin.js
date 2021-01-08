@@ -18,6 +18,8 @@ var barangController = require(__dirname +
     "/../controllers/admin/barangController");
 var karyawanController = require(__dirname +
     "/../controllers/admin/karyawanController");
+var departemenController = require(__dirname +
+    "/../controllers/admin/departemenController");
 
 /* GET home page. */
 router.get("/", indexController.index);
@@ -45,6 +47,16 @@ router.post("/karyawan/simpan", karyawanController.simpan);
 router.get("/karyawan/ubah/:id", karyawanController.ubah);
 router.post("/karyawan/perbarui", karyawanController.perbarui);
 router.post("/karyawan/hapus", karyawanController.hapus);
+
+/* Departemen */
+router.use("/departemen", indexController.authenticate);
+router.get("/departemen", departemenController.index);
+router.get("/departemen/datalist", departemenController.datalist);
+router.get("/departemen/tambah", departemenController.tambah);
+router.post("/departemen/simpan", departemenController.simpan);
+router.get("/departemen/ubah/:id", departemenController.ubah);
+router.post("/departemen/perbarui", departemenController.perbarui);
+router.post("/departemen/hapus", departemenController.hapus);
 
 /* Area */
 router.use("/area", indexController.authenticate);

@@ -30,6 +30,11 @@ block content
               label Nama
               input.form-control#nama(type="text" autocomplete="off")
             .form-group
+              label Departemen
+              select.form-control#id_departemen
+                each departemen in dataDepartemen
+                  option(value=departemen.id_departemen) #{departemen.nama_departemen}
+            .form-group
               label Alamat
               textarea.form-control#alamat(type="text" autocomplete="off" row="3")
             .form-group
@@ -46,14 +51,16 @@ block script
       var nama = $('#nama').val()
       var alamat = $('#alamat').val()
       var no_telp = $('#no_telp').val()
+      var id_departemen = $('#id_departemen').find('option:selected').val()
       var body = {
         npp: npp,
         nama: nama,
         alamat: alamat,
         no_telp: no_telp,
+        id_departemen: id_departemen
       }
 
-      if(isEmpty(npp) || isEmpty(nama)) {
+      if(isEmpty(nama)) {
         alert('Data belum lengkap')
         return
       }

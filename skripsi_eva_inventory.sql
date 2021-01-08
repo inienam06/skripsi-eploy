@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 05, 2021 at 02:42 PM
+-- Generation Time: Jan 08, 2021 at 05:31 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -31,6 +31,14 @@ CREATE TABLE `ref_departemen` (
   `id_departemen` int(11) NOT NULL,
   `nama_departemen` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ref_departemen`
+--
+
+INSERT INTO `ref_departemen` (`id_departemen`, `nama_departemen`) VALUES
+(2, 'GENERAL SERVICE'),
+(3, 'PURCHASING');
 
 -- --------------------------------------------------------
 
@@ -223,6 +231,13 @@ CREATE TABLE `tbl_karyawan` (
   `no_telp` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tbl_karyawan`
+--
+
+INSERT INTO `tbl_karyawan` (`id_karyawan`, `id_departemen`, `npp`, `nama`, `alamat`, `no_telp`) VALUES
+(3, 2, 'D970046', 'Nurjaya', '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -380,7 +395,7 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `ref_departemen`
 --
 ALTER TABLE `ref_departemen`
-  MODIFY `id_departemen` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_departemen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ref_level`
@@ -440,7 +455,7 @@ ALTER TABLE `tbl_jenis_barang`
 -- AUTO_INCREMENT for table `tbl_karyawan`
 --
 ALTER TABLE `tbl_karyawan`
-  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_masalah`

@@ -8,7 +8,7 @@ let controller = {
     datalist: function(req, res) {
         conn.query(
             "SELECT tb.id_barang, tjb.nama_jenis_barang as jenis_barang, tb.nama_barang, tb.serial_number FROM tbl_barang as tb\
-        LEFT JOIN tbl_jenis_barang as tjb ON tjb.id_jenis_barang = tb.id_jenis_barang",
+        LEFT JOIN tbl_jenis_barang as tjb ON tjb.id_jenis_barang = tb.id_jenis_barang ORDER BY tb.id_barang DESC",
             function(error, result) {
                 if (!error) {
                     res.status(200).json({

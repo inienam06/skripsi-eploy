@@ -6,28 +6,38 @@ let controller = {
         res.render("admin/pages/karyawan/index");
     },
     datalist: function(req, res) {
-        conn.query("SELECT * FROM tbl_karyawan", function(error, result) {
-            if (!error) {
-                res.status(200).json({
-                    status: true,
-                    code: 200,
-                    message: "Data Karyawan",
-                    data: result,
-                });
-            } else {
-                res.status(200).json({
-                    status: false,
-                    code: 500,
-                    message: error.message,
-                });
+        conn.query(
+            "SELECT tk.id_karyawan, tk.npp, tk.nama, tk.alamat, tk.no_telp, rd.nama_departemen FROM tbl_karyawan as tk \
+        LEFT JOIN ref_departemen as rd ON rd.id_departemen = tk.id_departemen ORDER BY tk.id_karyawan DESC",
+            function(error, result) {
+                if (!error) {
+                    res.status(200).json({
+                        status: true,
+                        code: 200,
+                        message: "Data Karyawan",
+                        data: result,
+                    });
+                } else {
+                    res.status(200).json({
+                        status: false,
+                        code: 500,
+                        message: error.message,
+                    });
+                }
             }
-        });
+        );
     },
     tambah: function(req, res) {
-        res.render("admin/pages/karyawan/tambah");
+        conn.query("SELECT * FROM ref_departemen", function(error, result) {
+            if (error) {
+                res.render("error", { error: error.message });
+            }
+
+            res.render("admin/pages/karyawan/tambah", { dataDepartemen: result });
+        });
     },
     simpan: function(req, res) {
-        if (req.body.npp.trim() == "" || req.body.nama.trim() == "") {
+        if (req.body.nama.trim() == "") {
             res.status(200).json({
                 status: false,
                 code: 406,
@@ -46,6 +56,7 @@ let controller = {
 
                 conn.query(
                     "INSERT INTO tbl_karyawan SET ?", {
+                        id_departemen: req.body.id_departemen,
                         npp: req.body.npp,
                         nama: req.body.nama,
                         alamat: req.body.alamat,
@@ -93,10 +104,20 @@ let controller = {
                 }
 
                 if (result[0] != undefined) {
-                    res.render("admin/pages/karyawan/ubah", {
-                        data: result[0],
-                        id: id,
-                    });
+                    conn.query(
+                        "SELECT * FROM ref_departemen",
+                        function(errorDepartemen, resultDepartemen) {
+                            if (errorDepartemen) {
+                                res.render("error", { error: errorDepartemen.message });
+                            }
+
+                            res.render("admin/pages/karyawan/ubah", {
+                                data: result[0],
+                                id: id,
+                                dataDepartemen: resultDepartemen,
+                            });
+                        }
+                    );
                 } else {
                     res.redirect("admin/karyawan");
                 }
@@ -106,7 +127,7 @@ let controller = {
     perbarui: function(req, res) {
         var id = req.body.id;
 
-        if (req.body.npp.trim() == "" || req.body.nama.trim() == "") {
+        if (req.body.nama.trim() == "") {
             res.status(200).json({
                 status: false,
                 code: 406,
@@ -114,7 +135,14 @@ let controller = {
             });
         } else {
             conn.query(
-                "UPDATE tbl_karyawan SET npp = ?, nama = ? , alamat = ? , no_telp = ? WHERE id_karyawan = ?", [req.body.npp, req.body.nama, req.body.alamat, req.body.no_telp, id],
+                "UPDATE tbl_karyawan SET id_departemen = ?, npp = ?, nama = ? , alamat = ? , no_telp = ? WHERE id_karyawan = ?", [
+                    req.body.id_departemen,
+                    req.body.npp,
+                    req.body.nama,
+                    req.body.alamat,
+                    req.body.no_telp,
+                    id,
+                ],
                 function(error, result) {
                     if (error) {
                         res.status(200).json({

@@ -5,22 +5,25 @@ let controller = {
         res.render("admin/pages/area/index");
     },
     datalist: function(req, res) {
-        conn.query("SELECT* FROM tbl_area", function(error, result) {
-            if (!error) {
-                res.status(200).json({
-                    status: true,
-                    code: 200,
-                    message: "Data Area",
-                    data: result,
-                });
-            } else {
-                res.status(200).json({
-                    status: false,
-                    code: 500,
-                    message: error.message,
-                });
+        conn.query(
+            "SELECT * FROM tbl_area ORDER BY id_area DESC",
+            function(error, result) {
+                if (!error) {
+                    res.status(200).json({
+                        status: true,
+                        code: 200,
+                        message: "Data Area",
+                        data: result,
+                    });
+                } else {
+                    res.status(200).json({
+                        status: false,
+                        code: 500,
+                        message: error.message,
+                    });
+                }
             }
-        });
+        );
     },
     tambah: function(req, res) {
         res.render("admin/pages/area/tambah");

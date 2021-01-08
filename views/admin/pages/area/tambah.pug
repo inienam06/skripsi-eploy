@@ -13,7 +13,7 @@ block content
               li.breadcrumb-item
                 a(href='#') Home
               li.breadcrumb-item
-                a(href='#') Data User
+                a(href='#') Data Area
               li.breadcrumb-item.active Tambah
       //- /.container-fluid
       //- Main content
@@ -34,9 +34,6 @@ block script
   script.
     function simpan() {
       var nama_area = $('#nama_area').val()
-      var username = $('#username').val()
-      var password = $('#password').val()
-      var id_level = $('#id_level').find('option:selected').val()
       var body = {
         nama_area: nama_area,
       }
