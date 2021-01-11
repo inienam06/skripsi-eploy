@@ -1,0 +1,103 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Tambah Data
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data Barang Keluar
+              li.breadcrumb-item.active Tambah
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Tambah
+          .card-body
+            .form-group
+              label Nama Pengirim
+              select.form-control#id_pengirim
+                each karyawan in dataKaryawan
+                  option(value=karyawan.id_karyawan) #{karyawan.nama} ( #{karyawan.npp} )
+            .form-group
+              label Nama Penerima
+              select.form-control#id_penerima
+                each karyawan in dataKaryawan
+                  option(value=karyawan.id_karyawan) #{karyawan.nama} ( #{karyawan.npp} )
+            .form-group
+              label Area
+              select.form-control#id_area
+                each area in dataArea
+                  option(value=area.id_area) #{area.nama_area}
+            .form-group
+              label Barang
+              select.form-control#id_barang
+                each barang in dataBarang
+                  option(value=barang.id_barang) #{barang.nama_barang}
+            .form-group
+              label Jumlah
+              input.form-control#jumlah(type="text" autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57")
+            .form-group
+              label Keterangan
+              textarea.form-control#keterangan(type="text" autocomplete="off" row="3")
+            .form-group
+              label Status
+              select.form-control#id_status
+                each status in dataStatus
+                  option(value=status.id_status) #{status.nama_status}
+            .form-group
+              button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
+              button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
+
+block script
+  script.
+    function simpan() {
+      var date = new Date().toLocaleString().split(',')
+      var tanggal = date[0].split('/').reverse()
+      var jam = date[1].trim().split(' ')[0]
+      var id_pengirim = $('#id_pengirim').find('option:selected').val()
+      var id_penerima = $('#id_penerima').find('option:selected').val()
+      var id_barang = $('#id_barang').find('option:selected').val()
+      var id_status = $('#id_status').find('option:selected').val()
+      var id_area = $('#id_area').find('option:selected').val()
+      var jumlah = $('#jumlah').val()
+      var keterangan = $('#keterangan').val()
+      var body = {
+        id_pengirim: id_pengirim,
+        id_penerima: id_penerima,
+        id_barang: id_barang,
+        id_status: id_status,
+        id_area: id_area,
+        jumlah: jumlah,
+        keterangan: keterangan,
+        tanggal: tanggal[0] + "-" + tanggal[1] + "-" + tanggal[2] + " " + jam
+      }
+
+      if(isEmpty(jumlah)) {
+        alert('Data belum lengkap')
+        return
+      }
+
+      post({
+        url: '/admin/barang-keluar/simpan',
+        data: body,
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        alert(response.message)
+
+        if(response.status) {
+          document.location = '/admin/barang-keluar'
+        }
+      })
+    }

@@ -20,6 +20,10 @@ var karyawanController = require(__dirname +
     "/../controllers/admin/karyawanController");
 var departemenController = require(__dirname +
     "/../controllers/admin/departemenController");
+var barangMasukController = require(__dirname +
+    "/../controllers/admin/barangMasukController");
+var barangKeluarController = require(__dirname +
+    "/../controllers/admin/barangKeluarController");
 
 /* GET home page. */
 router.get("/", indexController.index);
@@ -97,5 +101,19 @@ router.post("/barang/simpan", barangController.simpan);
 router.get("/barang/ubah/:id", barangController.ubah);
 router.post("/barang/perbarui", barangController.perbarui);
 router.post("/barang/hapus", barangController.hapus);
+
+/* Barang Masuk */
+router.use("/barang-masuk", indexController.authenticate);
+router.get("/barang-masuk", barangMasukController.index);
+router.get("/barang-masuk/datalist", barangMasukController.datalist);
+router.get("/barang-masuk/tambah", barangMasukController.tambah);
+router.post("/barang-masuk/simpan", barangMasukController.simpan);
+
+/* Barang Keluar */
+router.use("/barang-keluar", indexController.authenticate);
+router.get("/barang-keluar", barangKeluarController.index);
+router.get("/barang-keluar/datalist", barangKeluarController.datalist);
+router.get("/barang-keluar/tambah", barangKeluarController.tambah);
+router.post("/barang-keluar/simpan", barangKeluarController.simpan);
 
 module.exports = router;

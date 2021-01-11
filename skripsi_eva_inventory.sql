@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 08, 2021 at 05:31 AM
+-- Generation Time: Jan 11, 2021 at 06:23 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -141,6 +141,13 @@ CREATE TABLE `tbl_area` (
   `nama_area` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tbl_area`
+--
+
+INSERT INTO `tbl_area` (`id_area`, `nama_area`) VALUES
+(3, 'Warehouse');
+
 -- --------------------------------------------------------
 
 --
@@ -179,6 +186,13 @@ CREATE TABLE `tbl_barang_keluar` (
   `tanggal` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tbl_barang_keluar`
+--
+
+INSERT INTO `tbl_barang_keluar` (`id_barang_keluar`, `id_karyawan_pengirim`, `id_karyawan_penerima`, `id_area`, `id_barang`, `jumlah`, `keterangan`, `id_status`, `tanggal`) VALUES
+(1, 3, 4, 3, 2, 1, '', 1, '2021-11-01 05:21:17');
+
 -- --------------------------------------------------------
 
 --
@@ -193,8 +207,18 @@ CREATE TABLE `tbl_barang_masuk` (
   `jumlah` int(5) NOT NULL,
   `keterangan` text NOT NULL,
   `id_status` int(11) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT current_timestamp()
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_barang_masuk`
+--
+
+INSERT INTO `tbl_barang_masuk` (`id_barang_masuk`, `id_karyawan`, `id_barang`, `nama_pengirim`, `jumlah`, `keterangan`, `id_status`, `tanggal`) VALUES
+(1, 3, 2, 'Omen', 1, '', 1, '2021-10-31 17:00:00'),
+(2, 3, 2, 'Omen', 60, 'banyak', 2, '2021-10-31 17:00:00'),
+(3, 3, 2, 'Omen', 12, '', 1, '2021-11-01 04:45:35'),
+(4, 3, 2, 'Eva', 90, '', 1, '2021-11-01 05:02:17');
 
 -- --------------------------------------------------------
 
@@ -236,7 +260,8 @@ CREATE TABLE `tbl_karyawan` (
 --
 
 INSERT INTO `tbl_karyawan` (`id_karyawan`, `id_departemen`, `npp`, `nama`, `alamat`, `no_telp`) VALUES
-(3, 2, 'D970046', 'Nurjaya', '', '');
+(3, 2, 'D970046', 'Nurjaya', '', ''),
+(4, 3, 'OMN009', 'Omen', '', '');
 
 -- --------------------------------------------------------
 
@@ -425,7 +450,7 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT for table `tbl_area`
 --
 ALTER TABLE `tbl_area`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_barang`
@@ -437,13 +462,13 @@ ALTER TABLE `tbl_barang`
 -- AUTO_INCREMENT for table `tbl_barang_keluar`
 --
 ALTER TABLE `tbl_barang_keluar`
-  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_barang_masuk`
 --
 ALTER TABLE `tbl_barang_masuk`
-  MODIFY `id_barang_masuk` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_barang_masuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_jenis_barang`
@@ -455,7 +480,7 @@ ALTER TABLE `tbl_jenis_barang`
 -- AUTO_INCREMENT for table `tbl_karyawan`
 --
 ALTER TABLE `tbl_karyawan`
-  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_masalah`
