@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 11, 2021 at 06:23 AM
+-- Generation Time: Jan 13, 2021 at 09:29 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -57,9 +57,8 @@ CREATE TABLE `ref_level` (
 
 INSERT INTO `ref_level` (`id_level`, `nama_level`) VALUES
 (1, 'Supervisor'),
-(2, 'Karyawan'),
-(3, 'Teknikal'),
-(4, 'Warehouse');
+(2, 'Teknikal'),
+(3, 'Warehouse');
 
 -- --------------------------------------------------------
 
@@ -291,6 +290,13 @@ CREATE TABLE `tbl_opname` (
   `tanggal_selesai` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tbl_opname`
+--
+
+INSERT INTO `tbl_opname` (`id_opname`, `id_karyawan`, `id_area`, `tanggal_pencatatan`, `tanggal_selesai`) VALUES
+(2, 4, 3, '2021-01-13', '2021-01-13');
+
 -- --------------------------------------------------------
 
 --
@@ -303,6 +309,25 @@ CREATE TABLE `tbl_opname_spesifikasi` (
   `id_spesifikasi` int(11) NOT NULL,
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_opname_spesifikasi`
+--
+
+INSERT INTO `tbl_opname_spesifikasi` (`id_opname_spesifikasi`, `id_opname`, `id_spesifikasi`, `keterangan`) VALUES
+(1, 2, 2, '1'),
+(2, 2, 3, '2'),
+(3, 2, 4, '3'),
+(4, 2, 5, '4'),
+(5, 2, 6, '5'),
+(6, 2, 7, '6'),
+(7, 2, 8, '7'),
+(8, 2, 9, '8'),
+(9, 2, 10, '9'),
+(10, 2, 11, '10'),
+(11, 2, 12, '11'),
+(12, 2, 13, '12'),
+(13, 2, 14, '13');
 
 -- --------------------------------------------------------
 
@@ -317,6 +342,13 @@ CREATE TABLE `tbl_user` (
   `username` varchar(30) NOT NULL,
   `password` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_user`
+--
+
+INSERT INTO `tbl_user` (`id_user`, `id_level`, `nama`, `username`, `password`) VALUES
+(5, 3, 'Admin Gudang', 'warehouse', '550e1bafe077ff0b0b67f4e32f29d751');
 
 --
 -- Indexes for dumped tables
@@ -492,19 +524,19 @@ ALTER TABLE `tbl_masalah`
 -- AUTO_INCREMENT for table `tbl_opname`
 --
 ALTER TABLE `tbl_opname`
-  MODIFY `id_opname` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_opname` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_opname_spesifikasi`
 --
 ALTER TABLE `tbl_opname_spesifikasi`
-  MODIFY `id_opname_spesifikasi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_opname_spesifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,0 +1,52 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Detail
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data Stock Opname
+              li.breadcrumb-item.active Detail
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .row
+          .col-md-4.col-sm-12
+            .card
+              .card-header
+                h3.card-title Detail
+              .card-body
+                ul.list-group.list-group-unbordered.mb-3
+                  li.list-group-item
+                    b Nama
+                    a.float-right #{data.nama_karyawan}
+                  li.list-group-item
+                    b Area
+                    a.float-right #{data.nama_area}
+                  li.list-group-item
+                    b Tanggal Pencatatan
+                    a.float-right #{new Date(data.tanggal_pencatatan).toISOString().slice(0, 10)}
+                  li.list-group-item
+                    b Tanggal Selesai
+                    a.float-right #{new Date(data.tanggal_selesai).toISOString().slice(0, 10)}
+                a.btn.btn-primary.btn-block(href="/warehouse/stock-opname")
+                  b Kembali
+          .col-md-8.col-sm-12
+            .card
+              .card-header
+                h3.card-title Spesifikasi
+              .card-body
+                ul.list-group.list-group-unbordered.mb-3
+                  each spesifikasi in dataSpesifikasi
+                    li.list-group-item
+                      b #{spesifikasi.nama_spesifikasi}
+                      a.float-right #{spesifikasi.keterangan}

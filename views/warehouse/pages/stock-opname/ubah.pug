@@ -1,0 +1,73 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Ubah Data
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data User
+              li.breadcrumb-item.active Ubah
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Ubah
+          .card-body
+            .form-group
+              label Nama
+              input.form-control#nama(type="text" autocomplete="off" value=data.nama)
+            .form-group
+              label Username
+              input.form-control#username(type="text" autocomplete="off" value=data.username)
+            .form-group
+              label Level
+              select.form-control#id_level
+                each level in dataLevel
+                  option(value=level.id_level selected=((data.id_level == level.id_level) ? true : false)) #{level.nama_level}
+            .form-group
+              button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
+              button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
+
+block script
+  script.
+    function simpan() {
+      var id = #{id}
+      var nama = $('#nama').val()
+      var username = $('#username').val()
+      var id_level = $('#id_level').find('option:selected').val()
+      var body = {
+        id: id,
+        nama: nama,
+        username: username,
+        id_level: id_level
+      }
+
+      if(isEmpty(nama) || isEmpty(username)) {
+        alert('Data belum lengkap')
+        return
+      }
+
+      post({
+        url: '/admin/user/perbarui',
+        data: body,
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        alert(response.message)
+
+        if(response.status) {
+          document.location = '/admin/user'
+        }
+      })
+    }

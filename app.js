@@ -7,6 +7,7 @@ var session = require("express-session");
 
 var indexRouter = require("./routes/index");
 var adminRouter = require("./routes/admin");
+var warehouseRouter = require("./routes/warehouse");
 var usersRouter = require("./routes/users");
 
 var app = express();
@@ -18,7 +19,7 @@ app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -35,6 +36,7 @@ app.use(function(req, res, next) {
 
 app.use("/", indexRouter);
 app.use("/admin", adminRouter);
+app.use("/warehouse", warehouseRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler

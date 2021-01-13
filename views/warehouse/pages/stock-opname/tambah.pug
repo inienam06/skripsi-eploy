@@ -1,0 +1,107 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Tambah Data
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item
+                a(href='#') Data Stock Opname
+              li.breadcrumb-item.active Tambah
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Tambah
+          .card-body
+            .form-group
+              label Nama Karyawan
+              select.form-control#id_karyawan
+                each karyawan in dataKaryawan
+                  option(value=karyawan.id_karyawan) #{karyawan.nama} - #{karyawan.npp}
+            .form-group
+              label Area
+              select.form-control#id_area
+                each area in dataArea
+                  option(value=area.id_area) #{area.nama_area}
+            .form-group
+              label Tanggal Pencatatan
+              input.form-control#tanggal_pencatatan(type="date" autocomplete="off")
+            .form-group
+              label Tanggal Selesai
+              input.form-control#tanggal_selesai(type="date" autocomplete="off")
+            .form-group
+              table.table.table-stripped.table-bordered.table-hover
+                thead
+                  tr
+                    th(style="text-align: center") Spesifikasi
+                    th(style="text-align: center") Value
+                tbody
+                  each spesifikasi in dataSpesifikasi
+                    tr
+                      td(align="center" width="25%") #{spesifikasi.nama_spesifikasi}
+                      td
+                        input.form-control.spesifikasi(type="text" autocomplete="off")
+                        input.form-control.id_spesifikasi(type="hidden" autocomplete="off" value=spesifikasi.id_spesifikasi)
+            .form-group
+              button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
+              button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
+
+block script
+  script.
+    function simpan() {
+      var id_karyawan = $('#id_karyawan').val()
+      var id_area = $('#id_area').val()
+      var tanggal_pencatatan = $('#tanggal_pencatatan').val()
+      var tanggal_selesai = $('#tanggal_selesai').val()
+      var el_spesifikasi = $('.spesifikasi')
+      var spesifikasi = []
+      var body = {
+        id_karyawan: id_karyawan,
+        id_area: id_area,
+        tanggal_pencatatan: tanggal_pencatatan,
+        tanggal_selesai: tanggal_selesai
+      }
+
+      el_spesifikasi.each(function(i, el) {
+        var el_id_spesifikasi = $(el).parent().find('input[type="hidden"]')
+        var id = el_id_spesifikasi.val()
+        var value = $(el).val()
+        spesifikasi.push({
+          id: id,
+          value: value
+        })
+      })
+
+      body.spesifikasi = spesifikasi
+
+      if(isEmpty(tanggal_pencatatan) || isEmpty(tanggal_selesai)) {
+        alert('Data belum lengkap')
+        return
+      }
+
+      console.log(body)
+
+      post({
+        url: '/warehouse/stock-opname/simpan',
+        data: body,
+        isLoading: true
+      }, function(response) {
+        console.log(response)
+        loading(false)
+        alert(response.message)
+
+        if(response.status) {
+          document.location = '/warehouse/stock-opname'
+        }
+      })
+    }

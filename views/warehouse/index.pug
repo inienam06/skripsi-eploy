@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Blank Page
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item.active Blank Page
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Title
+            .card-tools
+              button.btn.btn-tool(type='button' data-card-widget='collapse' title='Collapse')
+                i.fas.fa-minus
+              button.btn.btn-tool(type='button' data-card-widget='remove' title='Remove')
+                i.fas.fa-times
+          .card-body
+            | Start creating your amazing application!
+          //- /.card-body
+          .card-footer
+            | Footer
+          //- /.card-footer
+          //- /.card
+          //- /.content
+          //- /.content-wrapper

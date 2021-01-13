@@ -48,7 +48,7 @@ body.hold-transition.login-page
 
       loading(true)
       $.ajax({
-        url: '/admin/login',
+        url: '/warehouse/login',
         method: 'POST',
         data: {
           username: username,
@@ -60,7 +60,7 @@ body.hold-transition.login-page
           console.log(response)
 
           if(response.status) {
-            document.location = '/admin/login/' + response.data.id_admin
+            document.location = '/warehouse/login/' + response.data.id_user
           } else {
             alert(response.message)
           }

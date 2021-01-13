@@ -1,0 +1,17 @@
+
+nav.mt-2
+  ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview' role='menu' data-accordion='false')
+    li.nav-item
+      a.nav-link(href='/warehouse')
+        i.nav-icon.fas.fa-home
+        p Dashboard
+    li.nav-item
+      a.nav-link(href='/warehouse/stock-opname')
+        i.nav-icon.fas.fa-cubes
+        p Stock Opname
+    li.nav-header PENGATURAN
+    li.nav-item
+      a.nav-link(href='/warehouse/logout' onclick="return confirm('Yakin ingin keluar dari akun anda ?')")
+        i.nav-icon.fas.fa-sign-out-alt
+        p Logout
+        span.right.badge.badge-danger
