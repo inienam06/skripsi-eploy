@@ -1,0 +1,32 @@
+html
+  title Faktur Barang Keluar
+  link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" media="print")
+  body
+    h3.text-center(style="margin-bottom: 0; font-weight: 700; margin-top: 20px") FAKTUR
+    p.text-center(style="font-size: 7pt") Barang Keluar
+    hr
+    .ml-3(style="font-size: 8pt; padding-left: 100px; margin-bottom: 10%")
+      p(style="float: left;padding-right: 200px") NOMOR :
+      p TANGGAL :
+      p(style="float: left;padding-right: 200px") KEPADA :
+      p PENGIRIM :
+      p ALAMAT :
+
+    table(border=1 style="margin: 0 auto")
+      thead
+        tr
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") NO
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") BARANG
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") JENIS
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") S/N
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") QTY
+      tbody
+        each data in list
+          tr
+            td.text-center(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{no++}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.nama_barang}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.nama_jenis_barang}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.serial_number}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.jumlah}
+
+    p.text-end(style="font-size: 9pt; margin-right: 20%;margin-top: 25%; text-decoration: overline; padding: 8px") Penerima

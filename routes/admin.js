@@ -24,6 +24,8 @@ var barangMasukController = require(__dirname +
     "/../controllers/admin/barangMasukController");
 var barangKeluarController = require(__dirname +
     "/../controllers/admin/barangKeluarController");
+var profilController = require(__dirname +
+    "/../controllers/admin/profilController");
 
 /* GET home page. */
 router.get("/", indexController.index);
@@ -108,6 +110,8 @@ router.get("/barang-masuk", barangMasukController.index);
 router.get("/barang-masuk/datalist", barangMasukController.datalist);
 router.get("/barang-masuk/tambah", barangMasukController.tambah);
 router.post("/barang-masuk/simpan", barangMasukController.simpan);
+router.post("/barang-masuk/hapus", barangMasukController.hapus);
+router.get("/barang-masuk/faktur", barangMasukController.faktur);
 
 /* Barang Keluar */
 router.use("/barang-keluar", indexController.authenticate);
@@ -115,5 +119,12 @@ router.get("/barang-keluar", barangKeluarController.index);
 router.get("/barang-keluar/datalist", barangKeluarController.datalist);
 router.get("/barang-keluar/tambah", barangKeluarController.tambah);
 router.post("/barang-keluar/simpan", barangKeluarController.simpan);
+router.post("/barang-keluar/hapus", barangKeluarController.hapus);
+router.get("/barang-keluar/faktur", barangKeluarController.faktur);
+
+/* Profil */
+router.use("/ubah-password", indexController.authenticate);
+router.get("/ubah-password", profilController.ubahPassword);
+router.post("/ubah-password/perbarui", profilController.perbaruiPassword);
 
 module.exports = router;

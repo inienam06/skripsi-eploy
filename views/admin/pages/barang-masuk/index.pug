@@ -23,6 +23,8 @@ block content
             .card-tools
               a.btn.btn-tool(href='/admin/barang-masuk/tambah' data-toggle="tooltip" title='Tambah' onclick="")
                 i.fas.fa-plus
+              a.btn.btn-tool(href='/admin/barang-masuk/faktur' data-toggle="tooltip" title='Print to PDF' target="_blank")
+                i.fas.fa-print
           .card-body.table-responsive
             table.table.table-hover.table-bordered.table-stripped.datatable
               thead
@@ -37,6 +39,7 @@ block content
                   th Keterangan
                   th status
                   th Tanggal
+                  th Aksi
               tbody
 
 block script
@@ -67,10 +70,33 @@ block script
             <td>'+(data.jumlah)+'</td>\
             <td>'+(data.keterangan)+'</td>\
             <td>'+(data.nama_status)+'</td>\
-            <td>'+(new Date(data.tanggal).toLocaleString().split('/').join('-').replace(',', ''))+'</td>'
+            <td>'+(new Date(data.tanggal).toLocaleString().split('/').join('-').replace(',', ''))+'</td>\
+            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+data.id_barang_masuk+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button></td>'
           })
 
           table.html(content)
           setDatatable('.datatable')
       })
+    }
+
+    function hapus(id)
+    {
+      if(confirm('Anda yakin akan menghapus barang masuk tersebut ?'))
+      {
+        post({
+          url: '/admin/barang-masuk/hapus',
+          data: {
+          id: id
+          },
+          isLoading: true
+          }, function(response) {
+            console.log(response)
+            loading(false)
+            alert(response.message)
+
+            if(response.status) {
+              document.location = '/admin/barang-masuk'
+            }
+        })
+      }
     }
