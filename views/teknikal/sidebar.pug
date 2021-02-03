@@ -1,0 +1,27 @@
+
+nav.mt-2
+  ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview' role='menu' data-accordion='false')
+    li.nav-item
+      a.nav-link(href='/teknikal')
+        i.nav-icon.fas.fa-home
+        p Dashboard
+    li.nav-item
+      a.nav-link(href='#')
+        i.nav-icon.fas.fa-chart-line
+        p Laporan
+          i.fas.fa-angle-left.right
+      ul.nav.nav-treeview
+        li.nav-item
+          a.nav-link(href='/teknikal/barang-masuk')
+            i.nav-icon.far.fa-circle
+            p Barang Masuk
+        li.nav-item
+          a.nav-link(href='/teknikal/barang-keluar')
+            i.nav-icon.far.fa-circle
+            p Barang Keluar
+    li.nav-header PENGATURAN
+    li.nav-item
+      a.nav-link(href='/teknikal/logout' onclick="return confirm('Yakin ingin keluar dari akun anda ?')")
+        i.nav-icon.fas.fa-sign-out-alt
+        p Logout
+        span.right.badge.badge-danger

@@ -10,6 +10,7 @@ var indexRouter = require("./routes/index");
 var adminRouter = require("./routes/admin");
 var warehouseRouter = require("./routes/warehouse");
 var usersRouter = require("./routes/users");
+var teknikalRouter = require("./routes/teknikal");
 var app = express();
 
 // view engine setup
@@ -38,6 +39,7 @@ app.use(function(req, res, next) {
 app.use("/", indexRouter);
 app.use("/admin", adminRouter);
 app.use("/warehouse", warehouseRouter);
+app.use("/teknikal", teknikalRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler

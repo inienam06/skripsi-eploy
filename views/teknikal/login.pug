@@ -21,7 +21,7 @@ body.hold-transition.login-page
 
     .card
       .card-body.login-card-body
-        p.login-box-msg Masuk untuk menuju ke Dashboard
+        p.login-box-msg Masuk untuk menuju ke Dashboard Teknikal
 
         .input-group.mb-3
           input.form-control(type="text" placeholder="Username" name="username")
@@ -48,7 +48,7 @@ body.hold-transition.login-page
 
       loading(true)
       $.ajax({
-        url: '/admin/login',
+        url: '/teknikal/login',
         method: 'POST',
         data: {
           username: username,
@@ -60,7 +60,7 @@ body.hold-transition.login-page
           console.log(response)
 
           if(response.status) {
-            document.location = '/admin/login/' + response.data.id_admin
+            document.location = '/teknikal/login/' + response.data.id_user
           } else {
             alert(response.message)
           }

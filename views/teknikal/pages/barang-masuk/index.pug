@@ -1,0 +1,76 @@
+extends ../../layout
+
+block content
+  .content-wrapper
+    //- Content Header (Page header)
+    section.content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1 Data Barang Masuk
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Home
+              li.breadcrumb-item.active Data Barang Masuk
+      //- /.container-fluid
+      //- Main content
+      section.content
+        //- Default box
+        .card
+          .card-header
+            h3.card-title Data Barang Masuk
+            .card-tools
+              a.btn.btn-tool(href='/teknikal/barang-masuk/faktur' data-toggle="tooltip" title='Print to PDF' target="_blank")
+                i.fas.fa-print
+          .card-body.table-responsive
+            table.table.table-hover.table-bordered.table-stripped.datatable
+              thead
+                tr
+                  th(width="1%") No
+                  th Nama Pengirim
+                  th Nama Penerima
+                  th Barang
+                  th Jenis
+                  th S/N
+                  th Jumlah Masuk
+                  th Keterangan
+                  th status
+                  th Tanggal
+              tbody
+
+block script
+  script.
+    $(document).ready(function() {
+      getData()
+    })
+
+    function getData() {
+      get({
+        url: '/teknikal/barang-masuk/datalist',
+        isLoading: true
+        }, function(response) {
+          console.log(response)
+          loading(false)
+          var no = 1;
+          var table = $('.table').find('tbody')
+          var content = ''
+
+          $.each(response.data, (index, data) => {
+          content += '<tr>\
+            <td align="center">'+(no++)+'</td>\
+            <td>'+(data.nama_pengirim)+'</td>\
+            <td>'+(data.nama_penerima)+'</td>\
+            <td>'+(data.nama_barang)+'</td>\
+            <td>'+(data.nama_jenis_barang)+'</td>\
+            <td>'+(data.serial_number)+'</td>\
+            <td>'+(data.jumlah)+'</td>\
+            <td>'+(data.keterangan)+'</td>\
+            <td>'+(data.nama_status)+'</td>\
+            <td>'+(new Date(data.tanggal).toLocaleString().split('/').join('-').replace(',', ''))+'</td>'
+          })
+
+          table.html(content)
+          setDatatable('.datatable')
+      })
+    }
