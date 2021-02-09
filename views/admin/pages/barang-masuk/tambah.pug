@@ -35,7 +35,7 @@ block content
               label Barang
               select.form-control#id_barang
                 each barang in dataBarang
-                  option(value=barang.id_barang) #{barang.nama_barang}
+                  option(value=barang.id_barang) #{barang.nama_jenis_barang} - #{barang.nama_barang} (S/N: #{barang.serial_number})
             .form-group
               label Jumlah
               input.form-control#jumlah(type="text" autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57")

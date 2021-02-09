@@ -7,23 +7,30 @@ block content
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1 Data Barang Keluar
+            h1 Laporan Barang Keluar
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
                 a(href='#') Home
-              li.breadcrumb-item.active Data Barang Keluar
+              li.breadcrumb-item.active Laporan Barang Keluar
       //- /.container-fluid
       //- Main content
       section.content
         //- Default box
         .card
           .card-header
-            h3.card-title Data Barang Keluar
+            h3.card-title Laporan Barang Keluar
             .card-tools
-              a.btn.btn-tool(href='/admin/barang-keluar/tambah' data-toggle="tooltip" title='Tambah' onclick="")
-                i.fas.fa-plus
+              a.btn.btn-tool(href='/admin/laporan/barang-keluar/faktur/' + bulan data-toggle="tooltip" title='Print to PDF' target="_blank")
+                i.fas.fa-print
           .card-body.table-responsive
+            .row
+              .form-group.col-sm-4
+                label Pilih Bulan
+                select.form-control#bulan
+                  - for (var i = 1; i <= ((new Date().getMonth()) + 1); i++) {
+                    option(value=i selected=((i == bulan) ? true : false)) #{getMonthName(i)}
+                  - }
             table.table.table-hover.table-bordered.table-stripped.datatable
               thead
                 tr
@@ -38,7 +45,6 @@ block content
                   th Keterangan
                   th status
                   th Tanggal
-                  th Aksi
               tbody
 
 block script
@@ -47,9 +53,16 @@ block script
       getData()
     })
 
+    $('#bulan').change(function(e) {
+      var obj = $(this);
+      var bulan = obj.find('option:selected').val()
+
+      document.location = '/admin/laporan/barang-keluar/' + bulan
+    })
+
     function getData() {
       get({
-        url: '/admin/barang-keluar/datalist',
+        url: '/admin/laporan/barang-keluar/datalist/#{bulan}',
         isLoading: true
         }, function(response) {
           console.log(response)
@@ -70,33 +83,10 @@ block script
             <td>'+(data.jumlah)+'</td>\
             <td>'+(data.keterangan)+'</td>\
             <td>'+(data.nama_status)+'</td>\
-            <td>'+(new Date(data.tanggal).toLocaleString().split('/').join('-').replace(',', ''))+'</td>\
-            <td align="center"><button class="btn btn-sm btn-danger" onclick="hapus('+data.id_barang_keluar+')" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash"></i></button></td>'
+            <td>'+(new Date(data.tanggal).toLocaleString().split('/').join('-').replace(',', ''))+'</td>'
           })
 
           table.html(content)
           setDatatable('.datatable')
       })
-    }
-
-    function hapus(id)
-    {
-      if(confirm('Anda yakin akan menghapus barang keluar tersebut ?'))
-      {
-        post({
-          url: '/admin/barang-keluar/hapus',
-          data: {
-          id: id
-          },
-          isLoading: true
-          }, function(response) {
-            console.log(response)
-            loading(false)
-            alert(response.message)
-
-            if(response.status) {
-              document.location = '/admin/barang-keluar'
-            }
-        })
-      }
     }

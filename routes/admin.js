@@ -26,6 +26,8 @@ var barangKeluarController = require(__dirname +
     "/../controllers/admin/barangKeluarController");
 var profilController = require(__dirname +
     "/../controllers/admin/profilController");
+var laporanController = require(__dirname +
+    "/../controllers/admin/laporanController");
 
 /* GET home page. */
 router.get("/", indexController.index);
@@ -111,7 +113,6 @@ router.get("/barang-masuk/datalist", barangMasukController.datalist);
 router.get("/barang-masuk/tambah", barangMasukController.tambah);
 router.post("/barang-masuk/simpan", barangMasukController.simpan);
 router.post("/barang-masuk/hapus", barangMasukController.hapus);
-router.get("/barang-masuk/faktur", barangMasukController.faktur);
 
 /* Barang Keluar */
 router.use("/barang-keluar", indexController.authenticate);
@@ -120,7 +121,31 @@ router.get("/barang-keluar/datalist", barangKeluarController.datalist);
 router.get("/barang-keluar/tambah", barangKeluarController.tambah);
 router.post("/barang-keluar/simpan", barangKeluarController.simpan);
 router.post("/barang-keluar/hapus", barangKeluarController.hapus);
-router.get("/barang-keluar/faktur", barangKeluarController.faktur);
+
+/* Laporan */
+router.use("/laporan/barang-masuk", indexController.authenticate);
+router.use("/laporan/barang-keluar", indexController.authenticate);
+router.get("/laporan/barang-masuk/:bulan?", laporanController.indexBarangMasuk);
+router.get(
+    "/laporan/barang-masuk/datalist/:bulan",
+    laporanController.datalistBarangMasuk
+);
+router.get(
+    "/laporan/barang-masuk/faktur/:bulan",
+    laporanController.fakturBarangMasuk
+);
+router.get(
+    "/laporan/barang-keluar/:bulan?",
+    laporanController.indexBarangKeluar
+);
+router.get(
+    "/laporan/barang-keluar/datalist/:bulan",
+    laporanController.datalistBarangKeluar
+);
+router.get(
+    "/laporan/barang-keluar/faktur/:bulan",
+    laporanController.fakturBarangKeluar
+);
 
 /* Profil */
 router.use("/ubah-password", indexController.authenticate);

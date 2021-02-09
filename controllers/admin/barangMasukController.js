@@ -32,41 +32,45 @@ let controller = {
         );
     },
     tambah: function(req, res) {
-        conn.query("SELECT * FROM tbl_barang", function(errorBarang, dataBarang) {
-            if (errorBarang) {
-                res.render("error", {
-                    error: errorBarang,
-                });
-            }
+        conn.query(
+            "SELECT * FROM tbl_barang as tb\
+        LEFT JOIN tbl_jenis_barang as tjb ON tjb.id_jenis_barang = tb.id_jenis_barang",
+            function(errorBarang, dataBarang) {
+                if (errorBarang) {
+                    res.render("error", {
+                        error: errorBarang,
+                    });
+                }
 
-            conn.query(
-                "SELECT * FROM tbl_karyawan",
-                function(errorKaryawan, dataKaryawan) {
-                    if (errorKaryawan) {
-                        res.render("error", {
-                            error: errorKaryawan,
-                        });
-                    }
-
-                    conn.query(
-                        "SELECT * FROM ref_status",
-                        function(errorStatus, dataStatus) {
-                            if (errorStatus) {
-                                res.render("error", {
-                                    error: errorStatus,
-                                });
-                            }
-
-                            res.render("admin/pages/barang-masuk/tambah", {
-                                dataBarang: dataBarang,
-                                dataPenerima: dataKaryawan,
-                                dataStatus: dataStatus,
+                conn.query(
+                    "SELECT * FROM tbl_karyawan",
+                    function(errorKaryawan, dataKaryawan) {
+                        if (errorKaryawan) {
+                            res.render("error", {
+                                error: errorKaryawan,
                             });
                         }
-                    );
-                }
-            );
-        });
+
+                        conn.query(
+                            "SELECT * FROM ref_status",
+                            function(errorStatus, dataStatus) {
+                                if (errorStatus) {
+                                    res.render("error", {
+                                        error: errorStatus,
+                                    });
+                                }
+
+                                res.render("admin/pages/barang-masuk/tambah", {
+                                    dataBarang: dataBarang,
+                                    dataPenerima: dataKaryawan,
+                                    dataStatus: dataStatus,
+                                });
+                            }
+                        );
+                    }
+                );
+            }
+        );
         try {} catch (err) {}
     },
     simpan: function(req, res) {
@@ -157,32 +161,6 @@ let controller = {
                     code: 200,
                     message: "Barang masuk berhasil dihapus",
                 });
-            }
-        );
-    },
-    faktur: function(req, res) {
-        var date = process.hrtime;
-        var no = 1;
-
-        conn.query(
-            "SELECT tbm.id_barang_masuk, tk.nama as nama_penerima, tb.nama_barang, tjb.nama_jenis_barang, tb.serial_number, tbm.nama_pengirim, tbm.jumlah, tbm.keterangan, rs.nama_status, tbm.tanggal FROM tbl_barang_masuk as tbm\
-        LEFT JOIN tbl_barang as tb ON tb.id_barang = tbm.id_barang\
-        LEFT JOIN tbl_jenis_barang as tjb ON tjb.id_jenis_barang = tb.id_jenis_barang\
-        LEFT JOIN tbl_karyawan as tk ON tk.id_karyawan = tbm.id_karyawan\
-        LEFT JOIN ref_status as rs ON rs.id_status = tbm.id_status\
-        ORDER BY tbm.tanggal DESC",
-            function(error, result) {
-                if (error) {
-                    res.render("error", {
-                        error: error,
-                    });
-                }
-
-                res.pugpdf(
-                    "faktur/barang-masuk", { message: "Hello World!", list: result, no: no }, {
-                        filename: "barang-masuk.pdf",
-                    }
-                );
             }
         );
     },
