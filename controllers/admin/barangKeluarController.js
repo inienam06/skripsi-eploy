@@ -85,7 +85,6 @@ let controller = {
                 );
             }
         );
-        try {} catch (err) {}
     },
     simpan: function(req, res) {
         if (
@@ -113,46 +112,81 @@ let controller = {
                     });
                 }
 
-                console.log(req.body.tanggal);
-
                 conn.query(
-                    "INSERT INTO tbl_barang_keluar SET ?", {
-                        id_karyawan_pengirim: req.body.id_pengirim,
-                        id_karyawan_penerima: req.body.id_penerima,
-                        id_barang: req.body.id_barang,
-                        id_status: req.body.id_status,
-                        id_area: req.body.id_area,
-                        jumlah: req.body.jumlah,
-                        keterangan: req.body.keterangan,
-                        jumlah: req.body.jumlah,
-                        tanggal: req.body.tanggal,
-                    },
-                    function(error, result) {
-                        if (error) {
+                    "SELECT * FROM tbl_barang WHERE id_barang = ? LIMIT 1", [req.body.id_barang],
+                    function(errorBarang, resultBarang) {
+                        if (errorBarang) {
                             conn.rollback();
                             res.status(200).json({
                                 status: false,
                                 code: 500,
-                                message: error.message,
+                                message: errorBarang.message,
                             });
                         }
 
-                        conn.commit(function(err) {
-                            if (err) {
-                                conn.rollback();
-                                res.status(200).json({
-                                    status: false,
-                                    code: 500,
-                                    message: err.message,
-                                });
-                            }
-
+                        if (resultBarang[0].stok < req.body.jumlah) {
+                            conn.rollback();
                             res.status(200).json({
-                                status: true,
-                                code: 200,
-                                message: "Barang Keluar berhasil ditambahkan",
+                                status: false,
+                                code: 406,
+                                message: "Stok barang lebih sedikit dari jumlah yang yang keluar",
                             });
-                        });
+                        } else {
+                            conn.query(
+                                "INSERT INTO tbl_barang_keluar SET ?", {
+                                    id_karyawan_pengirim: req.body.id_pengirim,
+                                    id_karyawan_penerima: req.body.id_penerima,
+                                    id_barang: req.body.id_barang,
+                                    id_status: req.body.id_status,
+                                    id_area: req.body.id_area,
+                                    jumlah: req.body.jumlah,
+                                    keterangan: req.body.keterangan,
+                                    jumlah: req.body.jumlah,
+                                    tanggal: req.body.tanggal,
+                                },
+                                function(error, result) {
+                                    if (error) {
+                                        conn.rollback();
+                                        res.status(200).json({
+                                            status: false,
+                                            code: 500,
+                                            message: error.message,
+                                        });
+                                    }
+
+                                    conn.query(
+                                        "UPDATE tbl_barang SET stok = stok - ? WHERE id_barang = ?", [req.body.jumlah, req.body.id_barang],
+                                        function(errorUpdate) {
+                                            if (errorUpdate) {
+                                                conn.rollback();
+                                                res.status(200).json({
+                                                    status: false,
+                                                    code: 500,
+                                                    message: errorUpdate.message,
+                                                });
+                                            }
+
+                                            conn.commit(function(err) {
+                                                if (err) {
+                                                    conn.rollback();
+                                                    res.status(200).json({
+                                                        status: false,
+                                                        code: 500,
+                                                        message: err.message,
+                                                    });
+                                                }
+
+                                                res.status(200).json({
+                                                    status: true,
+                                                    code: 200,
+                                                    message: "Barang Keluar berhasil ditambahkan",
+                                                });
+                                            });
+                                        }
+                                    );
+                                }
+                            );
+                        }
                     }
                 );
             });

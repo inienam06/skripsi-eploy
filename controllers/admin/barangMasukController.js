@@ -98,8 +98,6 @@ let controller = {
                     });
                 }
 
-                console.log(req.body.tanggal);
-
                 conn.query(
                     "INSERT INTO tbl_barang_masuk SET ?", {
                         id_karyawan: req.body.id_penerima,
@@ -121,22 +119,36 @@ let controller = {
                             });
                         }
 
-                        conn.commit(function(err) {
-                            if (err) {
-                                conn.rollback();
-                                res.status(200).json({
-                                    status: false,
-                                    code: 500,
-                                    message: err.message,
+                        conn.query(
+                            "UPDATE tbl_barang SET stok = stok + ? WHERE id_barang = ?", [req.body.jumlah, req.body.id_barang],
+                            function(errorUpdate) {
+                                if (errorUpdate) {
+                                    conn.rollback();
+                                    res.status(200).json({
+                                        status: false,
+                                        code: 500,
+                                        message: errorUpdate.message,
+                                    });
+                                }
+
+                                conn.commit(function(err) {
+                                    if (err) {
+                                        conn.rollback();
+                                        res.status(200).json({
+                                            status: false,
+                                            code: 500,
+                                            message: err.message,
+                                        });
+                                    }
+
+                                    res.status(200).json({
+                                        status: true,
+                                        code: 200,
+                                        message: "Barang Masuk berhasil ditambahkan",
+                                    });
                                 });
                             }
-
-                            res.status(200).json({
-                                status: true,
-                                code: 200,
-                                message: "Barang Masuk berhasil ditambahkan",
-                            });
-                        });
+                        );
                     }
                 );
             });

@@ -7,7 +7,7 @@ let controller = {
     },
     datalist: function(req, res) {
         conn.query(
-            "SELECT tb.id_barang, tjb.nama_jenis_barang as jenis_barang, tb.nama_barang, tb.serial_number FROM tbl_barang as tb\
+            "SELECT tb.id_barang, tjb.nama_jenis_barang as jenis_barang, tb.nama_barang, tb.serial_number, tb.stok FROM tbl_barang as tb\
         LEFT JOIN tbl_jenis_barang as tjb ON tjb.id_jenis_barang = tb.id_jenis_barang ORDER BY tb.id_barang DESC",
             function(error, result) {
                 if (!error) {
@@ -40,7 +40,8 @@ let controller = {
         if (
             req.body.id_jenis_barang.trim() == "" ||
             req.body.serial_number.trim() == "" ||
-            req.body.nama_barang.trim() == ""
+            req.body.nama_barang.trim() == "" ||
+            req.body.stok.trim() == ""
         ) {
             res.status(200).json({
                 status: false,
@@ -63,6 +64,7 @@ let controller = {
                         id_jenis_barang: req.body.id_jenis_barang,
                         serial_number: req.body.serial_number,
                         nama_barang: req.body.nama_barang,
+                        stok: req.body.stok,
                     },
                     function(error, result) {
                         if (error) {

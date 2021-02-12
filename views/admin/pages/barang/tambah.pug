@@ -35,6 +35,9 @@ block content
               label Nama Barang
               input.form-control#nama_barang(type="text" autocomplete="off")
             .form-group
+              label Stok
+              input.form-control#stok(type="text" autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57")
+            .form-group
               button.btn.btn-sm.btn-default.mr-2(onclick="return window.history.go(-1)") Kembali
               button.btn.btn-sm.btn-primary(onclick="simpan()") Simpan
 
@@ -44,13 +47,15 @@ block script
       var id_jenis_barang = $('#id_jenis_barang').find('option:selected').val()
       var serial_number = $('#serial_number').val()
       var nama_barang = $('#nama_barang').val()
+      var stok = $('#stok').val()
       var body = {
         id_jenis_barang: id_jenis_barang,
         serial_number: serial_number,
         nama_barang: nama_barang,
+        stok: stok,
       }
 
-      if(isEmpty(serial_number) || isEmpty(nama_barang)) {
+      if(isEmpty(serial_number) || isEmpty(nama_barang) || isEmpty(stok)) {
         alert('Data belum lengkap')
         return
       }
