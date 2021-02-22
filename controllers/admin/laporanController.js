@@ -26,9 +26,9 @@ let controller = {
         LEFT JOIN ref_status as rs ON rs.id_status = tbm.id_status\
         WHERE tbm.tanggal BETWEEN '" +
             req.params.from +
-            "' AND '" +
+            " 00:00:00' AND '" +
             req.params.to +
-            "'\
+            " 23:59:59'\
         ORDER BY tbm.tanggal DESC",
             function(error, result) {
                 if (!error) {
@@ -58,9 +58,9 @@ let controller = {
         LEFT JOIN ref_status as rs ON rs.id_status = tbm.id_status\
         WHERE tbm.tanggal BETWEEN '" +
             req.params.from +
-            "' AND '" +
+            " 00:00:00' AND '" +
             req.params.to +
-            "'\
+            " 23:59:59'\
         ORDER BY tbm.tanggal DESC",
             function(error, result) {
                 if (error) {
@@ -104,9 +104,9 @@ let controller = {
             LEFT JOIN tbl_area as ta ON ta.id_area = tbk.id_area\
             WHERE tbk.tanggal BETWEEN '" +
             req.params.from +
-            "' AND '" +
+            " 00:00:00' AND '" +
             req.params.to +
-            "'\
+            " 23:59:59'\
             ORDER BY tbk.tanggal DESC",
             function(error, result) {
                 if (!error) {
@@ -138,9 +138,9 @@ let controller = {
             LEFT JOIN tbl_area as ta ON ta.id_area = tbk.id_area\
             WHERE tbk.tanggal BETWEEN '" +
             req.params.from +
-            "' AND '" +
+            " 00:00:00' AND '" +
             req.params.to +
-            "'\
+            " 23:59:59'\
             ORDER BY tbk.tanggal DESC",
             function(error, result) {
                 if (error) {
