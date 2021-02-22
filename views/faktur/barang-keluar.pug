@@ -15,18 +15,24 @@ html
     table(border=1 style="margin: 0 auto")
       thead
         tr
-          th(style="padding: 8px; border: 1px solid black; font-size: 10pt") NO
-          th(style="padding: 8px; border: 1px solid black; font-size: 10pt") BARANG
-          th(style="padding: 8px; border: 1px solid black; font-size: 10pt") JENIS
-          th(style="padding: 8px; border: 1px solid black; font-size: 10pt") S/N
-          th(style="padding: 8px; border: 1px solid black; font-size: 10pt") QTY
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") NO
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") PENGIRIM
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") PENERIMA
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") BARANG
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") JENIS
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") JUMLAH MASUK
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") KET
+          th(style="padding: 8px; border: 1px solid black; font-size: 8pt") STATUS
       tbody
         each data in list
           tr
-            td.text-center(style="padding: 8px; border: 1px solid black; font-size: 10pt") #{no++}
-            td(style="padding: 8px; border: 1px solid black; font-size: 10pt") #{data.nama_barang}
-            td(style="padding: 8px; border: 1px solid black; font-size: 10pt") #{data.nama_jenis_barang}
-            td(style="padding: 8px; border: 1px solid black; font-size: 10pt") #{data.serial_number}
-            td(style="padding: 8px; border: 1px solid black; font-size: 10pt") #{data.jumlah}
+            td.text-center(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{no++}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.nama_pengirim}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.nama_penerima}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.nama_barang}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.nama_jenis_barang}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.jumlah}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.keterangan}
+            td(style="padding: 8px; border: 1px solid black; font-size: 8pt") #{data.nama_status}
 
     p.text-end(style="font-size: 9pt; margin-right: 20%;margin-top: 25%; text-decoration: overline; padding: 8px") Penerima
