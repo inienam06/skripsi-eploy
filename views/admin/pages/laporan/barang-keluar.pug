@@ -21,16 +21,18 @@ block content
           .card-header
             h3.card-title Laporan Barang Keluar
             .card-tools
-              a.btn.btn-tool(href='/admin/laporan/barang-keluar/faktur/' + bulan data-toggle="tooltip" title='Print to PDF' target="_blank")
+              a.btn.btn-tool(href='/admin/laporan/barang-keluar/faktur/' + from + '/' + to data-toggle="tooltip" title='Print to PDF' target="_blank")
                 i.fas.fa-print
           .card-body.table-responsive
             .row
-              .form-group.col-sm-4
-                label Pilih Bulan
-                select.form-control#bulan
-                  - for (var i = 1; i <= ((new Date().getMonth()) + 1); i++) {
-                    option(value=i selected=((i == bulan) ? true : false)) #{getMonthName(i)}
-                  - }
+              .form-group.col-sm-2
+                label Dari : 
+                input.form-control#from(type="date" value=from max=max)
+              .form-group.col-sm-2
+                label Sampai : 
+                input.form-control#to(type="date" value=to max=max)
+              .form-group.col-sm-2(style="place-self:flex-end")
+                button.btn.btn-primary#go(onclick="go()") Search
             table.table.table-hover.table-bordered.table-stripped.datatable
               thead
                 tr
@@ -53,16 +55,18 @@ block script
       getData()
     })
 
-    $('#bulan').change(function(e) {
+    $('#go').click(function(e) {
+      e.preventDefault();
       var obj = $(this);
-      var bulan = obj.find('option:selected').val()
+      var from = $('#from').val()
+      var to = $('#to').val()
 
-      document.location = '/admin/laporan/barang-keluar/' + bulan
+      document.location = '/admin/laporan/barang-keluar/' + from + '/' + to
     })
 
     function getData() {
       get({
-        url: '/admin/laporan/barang-keluar/datalist/#{bulan}',
+        url: '/admin/laporan/barang-keluar/datalist/#{from}/#{to}',
         isLoading: true
         }, function(response) {
           console.log(response)

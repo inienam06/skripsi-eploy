@@ -125,25 +125,25 @@ router.post("/barang-keluar/hapus", barangKeluarController.hapus);
 /* Laporan */
 router.use("/laporan/barang-masuk", indexController.authenticate);
 router.use("/laporan/barang-keluar", indexController.authenticate);
-router.get("/laporan/barang-masuk/:bulan?", laporanController.indexBarangMasuk);
+router.get("/laporan/barang-masuk/:from?/:to?", laporanController.indexBarangMasuk);
 router.get(
-    "/laporan/barang-masuk/datalist/:bulan",
+    "/laporan/barang-masuk/datalist/:from/:to",
     laporanController.datalistBarangMasuk
 );
 router.get(
-    "/laporan/barang-masuk/faktur/:bulan",
+    "/laporan/barang-masuk/faktur/:from/:to",
     laporanController.fakturBarangMasuk
 );
 router.get(
-    "/laporan/barang-keluar/:bulan?",
+    "/laporan/barang-keluar/:from?/:to?",
     laporanController.indexBarangKeluar
 );
 router.get(
-    "/laporan/barang-keluar/datalist/:bulan",
+    "/laporan/barang-keluar/datalist/:from/:to",
     laporanController.datalistBarangKeluar
 );
 router.get(
-    "/laporan/barang-keluar/faktur/:bulan",
+    "/laporan/barang-keluar/faktur/:from/:to",
     laporanController.fakturBarangKeluar
 );
 
